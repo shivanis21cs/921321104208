@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Average Calculator</title>
+    <style>
+      #output {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Average Calculator</h1>
+    <label for="number-id">Enter Number ID:</label>
+    <input type="text" id="number-id" placeholder="p, f, e, r" />
+    <button onclick="getAverage()">Get Average</button>
+    <div id="output"></div>
+
+    <script>
+      function getAverage() {
+          const numberId = document.getElementById('number-id').value;
+          fetch(/numbers/${numberId})
+              .then(response => response.json())
+              .then(data => {
+                  displayOutput(data);
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+      }
+
+      function displayOutput(data) {
+          const outputDiv = document.getElementById('output');
+          outputDiv.innerHTML = `
+              <p>Previous Window State: ${data.windowPrevState}</p>
+              <p>Current Window State: ${data.windowCurrState}</p>
+              <p>Numbers: ${data.numbers}</p>
+              <p>Average: ${data.avg}</p>
+          `;
+      }
+    </script>
+  </body>
+</html>
